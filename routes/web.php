@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use  App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,8 +23,9 @@ Route::get('/', function () {
 
 Route::resource('users', UserController::class);
 
+Route::resource('categories', CategoryController::class);
+
 Auth::routes([
     'verify' => true,
 ]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
