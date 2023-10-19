@@ -26,6 +26,7 @@
                         <th class="">Name of product</th>
                         <th class="">price</th>
                         <th class="">status</th>
+                        <th class="">category name</th>
                         <th colspan="3" class="">Actions</th>
                     </tr>
                         @if($products->isNotEmpty())
@@ -42,6 +43,7 @@
                         <td class="">{{$product->name }}</td>
                         <td class="">{{ $product->price }}</td>
                         <td class="">{{ $product->status }}</td>
+                        <td class="">{{ $product->category->name }}</td>
                     <td>
                     <a href="{{ route('products.edit',$product->id) }}"  class="btn btn-info">update</a>
                     <a  href="#" onclick="deleteProduct('{{ $product->id}}');" class="btn btn-danger">Delete</a></td>
