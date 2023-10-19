@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +25,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('Products.create');
+        $categories = Category::all();
+        return view('Products.create',['categories' => $categories]);
     }
 
     /**
@@ -48,7 +50,7 @@ class ProductController extends Controller
             $product->name = $data['name'];
             $product->price = $data['price'];
             $product->status = $data['status'];
-            $product->category_id = 1;
+            $product->category_id = $data['category'];
             //image move ......
             $ext = $data['image']->getClientOriginalExtension();
             $newFileName = time().'.'.$ext;
@@ -73,7 +75,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit',['product' => $product]);
+        $categories = Category::all();
+
+        return view('products.edit',['product' => $product,'categories' => $categories]);
     }
 
     /**
@@ -88,7 +92,7 @@ class ProductController extends Controller
             'image' => 'required|image:gif,jpg,bmp,png'
         ]);
         if($validator->fails()){
-            return redirect()->route('products.edit')->withErrors($validator)->withInput();
+            return to_route('products.edit')->withErrors($validator)->withInput();
         }
         else{            
             $product->fill($request->post())->save();

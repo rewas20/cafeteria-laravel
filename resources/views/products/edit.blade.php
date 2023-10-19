@@ -51,18 +51,36 @@
             <div class="mb-3">
                     <label class="form-label" for="status">status</label>
                     <select class="form-select @error('status') is-invalid @enderror" name="status">
-                            <option value="available">available</option>
-                            <option value="unavailable">unavailable</option>
+                    @if ($product->status=='available')
+                    <option value="{{$product->status}}" selected>{{$product->status}}</option>
+                    <option value="unavailable" >unavailable</option>
+                    @elseif ($product->status=='unavailable')
+                    <option value="{{$product->status}}" selected>{{$product->status}}</option>
+                    <option value="available" >available</option>
+                    @endif
+                    
                     </select>                   
                      @error('status')
                         <p class="invalid-feedback">{{$message}}</p>
                     @enderror
-                    <div class="pt-3">
-                            <input class="form-select" style="width: 50%;" value="{{ old('status',$product->status)}}" disabled alt="">
-                    </div>
+            </div>
+            <div class="mb-3">
+                    <label class="form-label" for="category">category</label>
+                    <select class="form-select @error('category') is-invalid @enderror" name="category">
+                    @foreach ($categories as $category)
+                            @if ($category->id==$product->category->id)
+                            <option value="{{$category->id}}" selected>{{$category->name}}</option>
+                            @else 
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                            @endif
+                    @endforeach
+                    </select>                   
+                     @error('category')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
             </div>
             </div>
         </div>
-        <button class="btn btn-primary">update Employee</button>
+        <button class="btn btn-primary">update products</button>
     </form>
     @endsection

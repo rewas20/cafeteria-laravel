@@ -53,6 +53,17 @@
                         <p class="invalid-feedback">{{$message}}</p>
                     @enderror
             </div>
+            <div class="mb-3">
+                    <label class="form-label" for="category">category</label>
+                    <select class="form-select @error('category') is-invalid @enderror" name="category">
+                    @foreach ($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endforeach
+                    </select>                   
+                     @error('category')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+            </div>
             </div>
         </div>
         <button class="btn btn-primary">save</button>
