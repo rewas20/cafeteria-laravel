@@ -10,6 +10,7 @@
     <div class="container py-3">
         <div class="d-flex justify-content-between">
             <div class="h4">products</div>
+            <a href="{{route('products.create')}}" class="btn btn-primary">Add new product</a>
         </div>
         @if(Session::has('success'))
         <div class="alert alert-success">
