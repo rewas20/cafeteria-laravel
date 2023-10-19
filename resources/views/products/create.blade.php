@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin</title>
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-</head>
-<body>
+@extends('layouts.app')
+    @section('content')
     <div class="bg-dark py-3">
         <div class="container">
             <div class="h4 text-white">
@@ -18,9 +10,9 @@
     <div class="container py-3">
         <div class="d-flex justify-content-between">
             <div class="h4">products</div>
-                <!-- <div>
+                <div>
                     <a href="{{route('products.index')}}" class="btn btn-primary">back</a>
-                </div> -->
+                </div>
         </div>
         <form action="{{route('products.store')}}" method="post" class="" enctype="multipart/form-data">
             @csrf
@@ -66,5 +58,4 @@
         <button class="btn btn-primary">save</button>
         </form>
     </div>
-    </body>
-</html>
+@endsection

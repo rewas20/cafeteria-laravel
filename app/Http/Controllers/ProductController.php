@@ -74,7 +74,6 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         return view('products.edit',['product' => $product]);
-        
     }
 
     /**
@@ -82,8 +81,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        return view('products.edit',['product' => $product]);
-        $data = $request->all();
         $validator = Validator::make($request->all(), 
         [
             'name' =>'required',
@@ -103,7 +100,8 @@ class ProductController extends Controller
             $product->save();
             File::delete(public_path().'/uploads/products/'.$oldImage);
         }
-        return redirect()->route('products.index')->with('success','product updated successfully.');    }
+        return redirect()->route('products.index')->with('success','product updated successfully.');   
+     }
     /**
      * Remove the specified resource from storage.
      */
@@ -112,7 +110,7 @@ class ProductController extends Controller
         
         File::delete(public_path().'/uploads/products/'.$product->image);
         $product->delete();
-        return redirect()->route('products.index')->with('success','Employee deleted successfully.');
+        return redirect()->route('products.index')->with('success','product deleted successfully.');
     }
 
 }
