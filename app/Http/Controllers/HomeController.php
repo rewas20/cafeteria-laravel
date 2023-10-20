@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -22,8 +24,18 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        return view('home');
-    }
+
+     
+     public function index()
+     {
+         $products = Product::orderBy('id', 'DESC')->paginate(3);
+         $users = User::where('role', 'user')->get();
+ 
+         return view('home.index', ['products' => $products, 'users' => $users]);
+     }
+
+
+
+
+
 }

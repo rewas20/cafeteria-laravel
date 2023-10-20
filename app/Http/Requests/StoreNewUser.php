@@ -24,7 +24,7 @@ class StoreNewUser extends FormRequest
         return [
             
 
-            'name' => 'required|string|min:5',
+            'name' => 'required|string|min:4',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
             'image' => 'required',
@@ -36,7 +36,7 @@ class StoreNewUser extends FormRequest
         return [
 
             'name.required' =>"User should have a name",
-            'name.min'=>'Should product name be at least 5 chars.',
+            'name.min'=>'  User name has to be at least 4 chars.',
             'email.email'=>'Invalid email.',
             'password.required' =>"User should have a password ",
             'password.min' =>"password should be at least 8 characters",

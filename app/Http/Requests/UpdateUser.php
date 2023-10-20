@@ -23,7 +23,7 @@ class UpdateUser extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:5',
+            'name' => 'required|string|min:4',
             'email' => ['required','email',Rule::unique('users')->ignore($this->user)] ,
             'role' => 'required',
             'image' => 'image|max:2048', 
@@ -34,7 +34,7 @@ class UpdateUser extends FormRequest
         return [
 
             'name.required' =>"User should have a name",
-            'name.min'=>'Should product name be at least 5 chars.',
+            'name.min'=>'User name has to be at least 4 chars.',
             'email.email'=>'Invalid email.',
             'image.required' =>'image must have  proper extension filename',
 
