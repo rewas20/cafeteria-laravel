@@ -74,9 +74,7 @@ class UserController extends Controller
     {
     
         $data = $request->all();
-        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-        $data['password'] = $hashedPassword;
-    
+       
 
         // Update the user's information
       
@@ -102,5 +100,11 @@ class UserController extends Controller
 
         return to_route('users.index');
 
+
     }
+
+
+    
+
+    
 }

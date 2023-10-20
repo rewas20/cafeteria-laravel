@@ -131,4 +131,10 @@ class ProductController extends Controller
         return to_route('products.index')->with('success',"product {$product->name} is {$product->status}");
     }
 
+
+
+ 
+    
+ 
+
 }
