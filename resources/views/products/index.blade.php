@@ -25,8 +25,8 @@
                         <th class="">image</th>
                         <th class="">Name of product</th>
                         <th class="">price</th>
-                        <th class="">status</th>
                         <th class="">category name</th>
+                        <th class="">status</th>
                         <th colspan="3" class="">Actions</th>
                     </tr>
                         @if($products->isNotEmpty())
@@ -42,15 +42,29 @@
                             </td>
                         <td class="">{{$product->name }}</td>
                         <td class="">{{ $product->price }}</td>
+                        @if($product->category->trashed())
+                            <td class=""><span class="text-danger">deleted</span>"{{$product->category->name}}"</td>
+                        @else
+                            <td class="">{{ $product->category->name }}</td>
+                        @endif
                         <td class="">{{ $product->status }}</td>
-                        <td class="">{{ $product->category->name }}</td>
                     <td>
+                    <form action="{{route('products.availability',$product)}}" method="post" class="d-inline">
+                                @csrf
+                                @method('put')
+                                @if($product->status === "unavailable")
+                                    <input type="submit"  class="btn btn-primary" value="available">
+                                @else
+                                    <input type="submit"  class="btn btn-warning" value="unavailable">
+                                @endif
+                    </form>   
                     <a href="{{ route('products.edit',$product->id) }}"  class="btn btn-info">update</a>
                     <a  href="#" onclick="deleteProduct('{{ $product->id}}');" class="btn btn-danger">Delete</a></td>
                     <form id="product-edit-action-{{ $product->id }}" action="{{ route('products.destroy',$product->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                             </form>
+                    </td>
                     </tr>
                     @endforeach
                     @else

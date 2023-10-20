@@ -69,15 +69,22 @@
                     <select class="form-select @error('category') is-invalid @enderror" name="category">
                     @foreach ($categories as $category)
                             @if ($category->id==$product->category->id)
-                            <option value="{{$category->id}}" selected>{{$category->name}}</option>
+                                @if($category->trashed())  
+                                <option value="{{$category->id}}" selected><span class="text-danger">deleted</span> "{{$category->name}}"</option>              
+                                @else  
+                                <option value="{{$category->id}}" selected>{{$category->name}}</option>
+                                @endif
                             @else 
-                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                @if(!$category->trashed())  
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endif
                             @endif
                     @endforeach
-                    </select>                   
+                    </select>               
                      @error('category')
                         <p class="invalid-feedback">{{$message}}</p>
                     @enderror
+                    
             </div>
             </div>
         </div>

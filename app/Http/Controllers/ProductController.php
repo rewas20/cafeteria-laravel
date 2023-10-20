@@ -40,7 +40,8 @@ class ProductController extends Controller
         [
             'name' =>'required',
             'price' =>'required|numeric',
-            'image' => 'required|image:gif,jpg,bmp,png'
+            'image' => 'required|image:gif,jpg,bmp,png',
+            'category' =>'required',
         ]);
         if($validator->fails()){
             return redirect()->route('products.create')->withErrors($validator)->withInput();
@@ -75,7 +76,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = Category::all();
+        $categories = Category::withTrashed()->get();
 
         return view('products.edit',['product' => $product,'categories' => $categories]);
     }
@@ -89,20 +90,22 @@ class ProductController extends Controller
         [
             'name' =>'required',
             'price' =>'required|numeric',
-            'image' => 'required|image:gif,jpg,bmp,png'
+            'image' => 'required|image:gif,jpg,bmp,png',
         ]);
         if($validator->fails()){
-            return to_route('products.edit')->withErrors($validator)->withInput();
+            return redirect()->route('products.edit')->withErrors($validator)->withInput();
         }
         else{            
             $product->fill($request->post())->save();
-            $oldImage = $product->image;
-            $ext = $request->image->getClientOriginalExtension();
-            $newFileName = time().'.'.$ext;
-            $request->image->move(public_path().'/uploads/products/',$newFileName); 
-            $product->image = $newFileName;
-            $product->save();
-            File::delete(public_path().'/uploads/products/'.$oldImage);
+            if ($request->hasFile('image')) {
+                $oldImage = $product->image;
+                $ext = $request->image->getClientOriginalExtension();
+                $newFileName = time().'.'.$ext;
+                $request->image->move(public_path().'/uploads/products/',$newFileName); 
+                $product->image = $newFileName;
+                $product->save();
+                File::delete(public_path().'/uploads/products/'.$oldImage);
+            }
         }
         return redirect()->route('products.index')->with('success','product updated successfully.');   
      }
@@ -115,6 +118,17 @@ class ProductController extends Controller
         File::delete(public_path().'/uploads/products/'.$product->image);
         $product->delete();
         return redirect()->route('products.index')->with('success','product deleted successfully.');
+    }
+    //function update availability for status product
+    public function availability(Product $product)
+    {
+        if($product->status === "available"){
+            $product->status =  "unavailable";
+        }else{
+            $product->status =  "available";
+        }
+        $product->update();
+        return to_route('products.index')->with('success',"product {$product->name} is {$product->status}");
     }
 
 }

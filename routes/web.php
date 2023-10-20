@@ -26,6 +26,7 @@ Route::resource('users', UserController::class);
 
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
+Route::put('products/{product}/availability', [ProductController::class,'availability'])->name('products.availability');
 
 Auth::routes([
     'verify' => true,
