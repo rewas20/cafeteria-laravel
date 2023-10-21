@@ -41,7 +41,7 @@
                             <a class="nav-link" href="{{ route('users.index') }}">Users</a>
                         </li>
                         <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
-                            <a class="nav-link" href="#">Manual Orders</a>
+                            <a class="nav-link" href="{{ route('status-orders.index') }}">Manual Orders</a>
                         </li>
                         <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
                             <a class="nav-link" href="#">Checks</a>
