@@ -28,6 +28,7 @@ class StoreNewUser extends FormRequest
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
             'image' => 'required',
+            'room' => 'required|string|max:255',
             'role' => 'required',
         ];
 
@@ -42,7 +43,9 @@ class StoreNewUser extends FormRequest
             'password.min' =>"password should be at least 8 characters",
             'image.required' =>'image must have  proper extension filename',
             'confirmed.required' =>'password should match eachother',
-
+            'room.required'=>' Room input is empty',
+           
+    
         ];
     }
     

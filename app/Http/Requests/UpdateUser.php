@@ -26,6 +26,7 @@ class UpdateUser extends FormRequest
             'name' => 'required|string|min:4',
             'email' => ['required','email',Rule::unique('users')->ignore($this->user)] ,
             'role' => 'required',
+            'room' => 'required|string|max:255',
             'image' => 'image|max:2048', 
         ];
     }
@@ -37,7 +38,7 @@ class UpdateUser extends FormRequest
             'name.min'=>'User name has to be at least 4 chars.',
             'email.email'=>'Invalid email.',
             'image.required' =>'image must have  proper extension filename',
-
+            'room.required'=>' Room input is empty',
         ];
     }
 }

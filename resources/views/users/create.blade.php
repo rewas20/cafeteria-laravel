@@ -36,7 +36,7 @@
         
         <div class="form-group">
             <label for="password_confirmation">Confirm Password:</label>
-            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" >
+            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"   >
             @error('password_confirmation')
                 <p class="text-danger fw-bolder mt-2">{{$message}}</p>
             @enderror
@@ -46,13 +46,24 @@
 
         <div class="form-group">
             <label for="image">Profile Image:</label>
-            <input type="file" class="form-control-file " id="image" name="image" accept="image/*" >
+            <input type="file" class="form-control-file " id="image" name="image" accept="image/*"  >
              @error('image')
                 <p class="text-danger fw-bolder mt-2">{{$message}}</p>
             @enderror
         </div>
 
         <br>
+
+        <div class="form-group">
+            <label for="room">room:</label>
+            <input type="text" class="form-control " id="room" name="room"  value="{{old('room') }}">
+             @error('room')
+                <p class="text-danger fw-bolder mt-2">{{$message}}</p>
+            @enderror
+        </div>
+
+
+<br>
 
         <div class="form-group">
             <label for="role">Role:</label>

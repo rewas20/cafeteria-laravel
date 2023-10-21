@@ -23,11 +23,15 @@ Route::get('/', function () {
 
 
 Route::resource('users', UserController::class);
+Route::get('myprofile', [UserController::class,'myProfile' ])->name('user.myprofile');
 
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
 Route::put('products/{product}/availability', [ProductController::class,'availability'])->name('products.availability');
-Route::get('/products/search', 'ProductController@search')->name('products.search');
+
+Route::get('home/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
+
+
 
 Auth::routes([
     'verify' => true,
