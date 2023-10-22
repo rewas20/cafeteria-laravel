@@ -34,6 +34,12 @@ class HomeController extends Controller
          return view('home.index', ['products' => $products, 'users' => $users]);
      }
 
+     public function search(Request $request){
+        $search = $request->input('search');
+        $products = Product::where('name','LIKE', '%'.$search.'%')->get();
+        $users = User::where('role', 'user')->get();
+        return view('home.index',['products' => $products, 'users' => $users]);
+    }
 
 
 

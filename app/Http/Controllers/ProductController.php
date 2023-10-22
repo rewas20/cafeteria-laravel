@@ -59,7 +59,7 @@ class ProductController extends Controller
             $product->image = $newFileName;
             $product->save();
             //end of move
-            return redirect()->route('products.index')->with('success','Employee added successfully.');   
+            return redirect()->route('products.index')->with('success','Product is added successfully.');   
         }
     }
 

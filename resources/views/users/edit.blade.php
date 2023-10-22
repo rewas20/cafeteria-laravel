@@ -27,6 +27,17 @@
         @enderror
         </div>
 
+
+        <div class="form-group">
+            <label for="room">Room:</label>
+            <input type="text" class="form-control" id="room" name="room" value="{{ old('room',$user->room) }}" >
+            @error('room')
+            <p class="text-danger fw-bolder mt-2">{{$message}}</p>
+          @enderror
+        </div>
+
+
+
         <div class="form-group">
             <label for="role">Role:</label>
             <select class="form-control" id="role" name="role">
@@ -37,6 +48,7 @@
             <p class="text-danger fw-bolder mt-2">{{$message}}</p>
         @enderror
         </div>
+        <br>
 
         <div class="form-group">
             <label for="image">Profile Image:</label>
@@ -45,11 +57,17 @@
                 <p class="text-danger fw-bolder mt-2">{{$message}}</p>
             @enderror
         </div>
+        <br>
+
         <div>
             <img src="{{asset('storage/'.$user->profile_pic)}} " width="100px" alt="">
         </div>
+        <br>
 
         <button type="submit" class="btn btn-primary">Update</button>
+
+        <a class="link-offset-3 m-3" href="{{ route('password.request') }}">  Recieve Password</a>
+       
     </form>
 
     <a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary mt-3">Back to User Details</a>
