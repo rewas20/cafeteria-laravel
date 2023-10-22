@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use  App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,10 +25,14 @@ Route::get('/', function () {
 
 Route::resource('users', UserController::class);
 
+// orders routes
+Route::resource('orders', OrderController::class)->only(['index', 'store', 'destroy']);
+Route::post('orders', [OrderController::class, 'filter'])->name('orders.filter');
+
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
-Route::put('products/{product}/availability', [ProductController::class,'availability'])->name('products.availability');
-Route::get('/products/search', 'ProductController@search')->name('products.search');
+Route::put('products/{product}/availability', [ProductController::class, 'availability'])->name('products.availability');
+// Route::get('/products/search', 'ProductController@search')->name('products.search');
 
 Auth::routes([
     'verify' => true,
