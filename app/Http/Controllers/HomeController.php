@@ -54,7 +54,19 @@ class HomeController extends Controller
         $search = $request->input('search');
         $products = Product::where('name','LIKE', '%'.$search.'%')->paginate(5);
         $users = User::where('role', 'user')->get();
-        return view('home.index',['products' => $products, 'users' => $users]);
+
+
+        $isUser = Gate::inspect('user',Auth::user());
+        if($isUser->allowed()){
+            $userAdded = Auth::user(); 
+            session()->pull('user');
+            session()->put('user',$userAdded);
+        }
+
+        return view('home.index',['products' => $products, 'users' => $users,'userAdded'=>$userAdded]);
+
+   
+
     }
 
     public function choose(Request $request){
