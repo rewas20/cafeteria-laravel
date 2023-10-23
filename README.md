@@ -46,4 +46,5 @@ php artisan serve
 ```
 
 
+![6925898d-dcf5-4b43-8715-9044b05bef74](https://github.com/rewas20/cafeteria-laravel/assets/83989723/6ce37e52-4302-4d8a-a6e5-570183440650)
 
