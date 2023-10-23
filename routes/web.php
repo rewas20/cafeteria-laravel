@@ -23,22 +23,20 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[App\Http\Controllers\HomeController::class, 'index']);
 
 
 Route::resource('users', UserController::class);
 Route::get('myprofile', [UserController::class,'myProfile' ])->name('user.myprofile');
 
 // orders routes
-Route::resource('orders', OrderController::class)->only(['index', 'store', 'destroy']);
-Route::post('orders', [OrderController::class, 'filter'])->name('orders.filter');
+Route::resource('orders', OrderController::class)->only(['index', 'destroy'])->middleware(['auth','verified']);
+Route::post('orders', [OrderController::class, 'filter'])->name('orders.filter')->middleware(['auth','verified']);
 
-Route::resource('categories', CategoryController::class);
-Route::resource('products', ProductController::class);
+Route::resource('categories', CategoryController::class)->middleware(['auth','verified','admin']);
+Route::resource('products', ProductController::class)->middleware(['auth','verified','admin']);
 
-Route::put('products/{product}/availability', [ProductController::class,'availability'])->name('products.availability');
+Route::put('products/{product}/availability', [ProductController::class,'availability'])->name('products.availability')->middleware(['auth','verified','admin']);
 Route::resource('carts', CartController::class);
 
 Route::get('home/search', [HomeController::class, 'search'])->name('search');
@@ -49,12 +47,12 @@ Route::post('carts/plus/{increment}',[CartController::class,'increment'])->name(
 Route::post('carts/minus/{decrement}',[CartController::class,'decrement'])->name('carts.decrement');
 
 
-Route::resource('status-orders', StatusOrderController::class);
-Route::resource('checks', CheckController::class);
-Route::resource('order-products', OrderProductController::class);
-Route::post('checks', [CheckController::class, 'filter'])->name('checks.filter');
+Route::resource('status-orders', StatusOrderController::class)->middleware(['auth','verified','admin']);
+Route::resource('checks', CheckController::class)->middleware(['auth','verified','admin']);
+Route::resource('order-products', OrderProductController::class)->middleware(['auth','verified']);
+Route::post('checks', [CheckController::class, 'filter'])->name('checks.filter')->middleware(['auth','verified']);
 
-Route::post('home', [HomeController::class, 'choose'])->name('home.choose');
+Route::post('home', [HomeController::class, 'choose'])->name('home.choose')->middleware(['auth','verified','admin']);
 
 Auth::routes([
     'verify' => true,

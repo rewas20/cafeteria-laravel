@@ -12,6 +12,7 @@ class CheckController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         $date_from = '2023-01-01';

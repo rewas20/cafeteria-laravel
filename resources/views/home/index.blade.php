@@ -12,6 +12,14 @@ fieldset{
 }
 </style>
 
+@can('is-user')
+    @if(!auth()->user()->email_verified_at)
+    <div class="alert alert-danger text-capitalize">
+        <p>please verify your account </p>
+        <a href="{{route('verification.notice')}}" class="btn btn-danger">Verify your email now</a>
+    </div>
+    @endif
+@endcan
 @if(Session::has('success'))
     <div class="alert alert-success">
         {{Session::get('success')}}
@@ -19,6 +27,7 @@ fieldset{
 @endif
 <div class="container">
     <div class="row">
+        @can('is-admin')
         <div class="col-md-6">
            <form id="form-chanage" action="{{route('home.choose')}}" method="post">
             @csrf
@@ -38,6 +47,7 @@ fieldset{
             </div>
            </form>
         </div>
+        @endcan
       <div class="col-md-5">
     <!-- Search Input -->
     <div class="mb-3">
@@ -50,6 +60,22 @@ fieldset{
     </div>
     </div>
 </div>
+@can('is-user')
+    @can('is-verified')
+        @if($userAdded->orders->last())
+        @foreach($userAdded->orders->last()->products as $product)
+        <h3 >Latest order</h3>
+        <div class="card m-2 border-0 d-flex" style="width: 50px; border-radius: 15px; padding:5px">
+            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top mx-auto img-fluid" alt="{{ $product->name }}" >
+            <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                <h5 class="card-title" style="font-size: 15px; font-weight:bold;">{{ $product->name }}</h5>
+            </div>
+        </div>
+        @endforeach
+        <hr>
+        @endif
+    @endcan
+@endcan
     <div class="d-flex flex-row flex-wrap">
                 <div class="col-md-6">
                 
@@ -99,7 +125,6 @@ fieldset{
                                 </form>
                                 </td>
                                 <td>
-                                
                             <form id="product-edit-action-{{$card_id }}" action="{{ route('carts.destroy',$card_id) }}" method="post">
                                 @csrf
                                 @method('delete')
@@ -116,10 +141,12 @@ fieldset{
                             <label for="notes">Notes:</label>
                             <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="room">Room:</label>
-                            <input type="text" id="room" name="room" value="{{session('user')->room??'no room'}}">
+                        @can('is-verified')
+                        <div class="mb-3 d-flex ">
+                            <label for="room fw-bolder">Room:</label>
+                            <p class="ms-4 fw-bold text-capitalize border border-1 px-4"> {{session('user')->room??'no room'}}</p>
                         </div>
+                        @endcan
                         <input type="submit" class="btn btn-primary" style="width:10rem ;" value="Confirm">
                     </form>
                     <div class="text-end mb-2">
@@ -129,6 +156,9 @@ fieldset{
                 </div>
 <div class="container col-md-6">
     <div class="d-flex flex-wrap" >
+        <?=
+         $products
+        ?>
         @foreach ($products as $product)
         <form action="{{route('carts.update',$product->id)}}" method="post">
                     @csrf

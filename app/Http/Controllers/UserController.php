@@ -5,7 +5,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\StoreNewUser;
 use App\Http\Requests\UpdateUser;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -13,6 +15,14 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
+     public function __construct()
+     {
+         //check verification email with middleware verified or not 
+         $this->middleware('auth');
+         $this->middleware(['verified','admin'])->except(['edit','update','myProfile']);
+     }
     public function index()
     {
 
@@ -93,9 +103,14 @@ class UserController extends Controller
         }
     
           $user->update($data);
-   
-            return to_route('users.show', $user->id);
-        
+          $isUser = Gate::inspect('user',$user);
+          $isAmin = Gate::inspect('admin',$user);
+          if($isUser->allowed()){
+              return to_route('user.myprofile', $user->id);
+            }elseif($isAmin->allowed()){
+              return to_route('users.show', $user->id);
+
+          }
 
     }
 
