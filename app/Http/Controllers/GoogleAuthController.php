@@ -21,7 +21,7 @@ class GoogleAuthController extends Controller
     }
 
     public function callbackgoogle(){
-       try{
+      
         $google_user = Socialite::driver('google')->user();
 
         
@@ -42,13 +42,11 @@ class GoogleAuthController extends Controller
             return redirect()->intended('home');
         }
        
-
+ 
            
-       }
-       catch(Throwable $th){
-        dd('something went wrong',$th->getMessage());
+     
 
-       }
+      
        
     }
 }
