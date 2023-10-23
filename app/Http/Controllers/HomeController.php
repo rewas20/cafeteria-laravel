@@ -7,6 +7,9 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+use App\Policies\UserPolicy;
 
 class HomeController extends Controller
 {
@@ -18,7 +21,7 @@ class HomeController extends Controller
     public function __construct()
     {
         //check verification email with middleware verified or not 
-        $this->middleware(['auth','verified']);
+        $this->middleware(['auth','verified'])->only(['choose']);
     }
 
     /**
@@ -30,10 +33,20 @@ class HomeController extends Controller
      
      public function index()
      {
+        
         $userAdded ="";
+        $isUser = Gate::inspect('user',Auth::user());
+        if($isUser->allowed()){
+            $userAdded = Auth::user(); 
+            session()->pull('user');
+            session()->put('user',$userAdded);
+
+        }
+
+
          $products = Product::where('status','available')->orderBy('id', 'DESC')->paginate(10);
          $users = User::where('role', 'user')->get();
- 
+        
          return view('home.index', ['products' => $products, 'users' => $users,'userAdded'=>$userAdded]);
      }
 
@@ -45,16 +58,18 @@ class HomeController extends Controller
     }
 
     public function choose(Request $request){
-        $userAdded = $request->user?? $request->user;
-        session()->pull('user');
-        if($userAdded){
-            $userAdded = User::find($userAdded);
-            session()->put('user',$userAdded);
-            
+        $isAdmin = Gate::inspect('admin',Auth::user());
+        if($isAdmin->allowed()){
+            $userAdded = $request->user?? $request->user;
+            session()->pull('user');
+            if($userAdded){
+                $userAdded = User::find($userAdded);
+                session()->put('user',$userAdded);
+                
+            }
+            $products = Product::where('status','available')->orderBy('id', 'DESC')->paginate(10);
+            $users = User::where('role', 'user')->get();
         }
-        $products = Product::where('status','available')->orderBy('id', 'DESC')->paginate(10);
-        $users = User::where('role', 'user')->get();
-
         return view('home.index',['products' =>$products, 'users' => $users,'userAdded'=>$userAdded]);
     }
 

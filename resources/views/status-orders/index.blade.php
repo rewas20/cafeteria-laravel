@@ -2,7 +2,7 @@
 
 @section('content')
 
-
+<h2 class="my-3">Orders</h2>
 <div class="w-100">
     <table class="mx-auto w-100">
         <tr class="border-bottom border-dark bg-body-secondary">

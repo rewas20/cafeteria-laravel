@@ -37,7 +37,7 @@
         </div>
 
 
-
+        @can('is-admin')
         <div class="form-group">
             <label for="role">Role:</label>
             <select class="form-control" id="role" name="role">
@@ -49,6 +49,7 @@
         @enderror
         </div>
         <br>
+        @endcan
 
         <div class="form-group">
             <label for="image">Profile Image:</label>
@@ -60,7 +61,7 @@
         <br>
 
         <div>
-            <img src="{{asset('storage/'.$user->profile_pic)}} " width="100px" alt="">
+            <img src="{{Auth::user()->profile_pic==null? asset('profile/profile_pic.jpg'):asset('storage/'.$user->profile_pic)}} " width="100px" alt="">
         </div>
         <br>
 

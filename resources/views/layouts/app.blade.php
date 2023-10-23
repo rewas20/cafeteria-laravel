@@ -35,11 +35,15 @@
                             <a class="nav-link" href="{{ route('home') }}">Home</a>
                         </li>
 
+                        @can('is-user')
+                            @can('is-verified')
+                            <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
+                                <a class="nav-link" href="{{route('orders.index')}}">My Orders</a>
+                            </li>
+                            @endcan
+                        @endcan
 
-                        <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
-                            <a class="nav-link" href="{{route('orders.index')}}">My Orders</a>
-                        </li>
-
+                        @can('is-admin')
                         <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
                             <a class="nav-link" href="{{ route('products.index') }}">Products</a>
                         </li>
@@ -59,6 +63,7 @@
                         <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
                             <a class="nav-link" href="{{route('checks.index')}}">Checks</a>
                         </li>
+                        @endcan
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -88,7 +93,7 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     
                                     
-                                    <img src="{{ asset('storage/' . Auth::user()->profile_pic) }}" class="user-image" style="width: 40px; height: 40px; border-radius: 50%;">
+                                    <img src="{{Auth::user()->profile_pic==null? asset('profile/profile_pic.jpg'):asset('storage/' . Auth::user()->profile_pic)}}" class="user-image" style="width: 40px; height: 40px; border-radius: 50%;">
                                   
                                     {{ Auth::user()->name }}
 

@@ -25,7 +25,6 @@ class UpdateUser extends FormRequest
         return [
             'name' => 'required|string|min:4',
             'email' => ['required','email',Rule::unique('users')->ignore($this->user)] ,
-            'role' => 'required',
             'room' => 'required|string|max:255',
             'image' => 'image|max:2048', 
         ];

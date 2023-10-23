@@ -15,12 +15,6 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
 
-    function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('admin-check');
-    }
-
     public function index()
     {
         //

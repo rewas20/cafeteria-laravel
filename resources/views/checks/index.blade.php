@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+<h2 class="my-3">Checks</h2>
 <div class="container">
     <form class="d-flex justify-content-between my-3" action="{{route('checks.filter')}}" method="post">
     @csrf
