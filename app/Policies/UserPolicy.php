@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Policies;
-
+use Illuminate\Support\Facades\Gate;
 use App\Models\User;
 
 class UserPolicy

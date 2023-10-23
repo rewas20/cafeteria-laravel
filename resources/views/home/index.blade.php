@@ -63,15 +63,20 @@ fieldset{
 @can('is-user')
     @can('is-verified')
         @if($userAdded->orders->last())
-        @foreach($userAdded->orders->last()->products as $product)
         <h3 >Latest order</h3>
-        <div class="card m-2 border-0 d-flex" style="width: 50px; border-radius: 15px; padding:5px">
-            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top mx-auto img-fluid" alt="{{ $product->name }}" >
-            <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
-                <h5 class="card-title" style="font-size: 15px; font-weight:bold;">{{ $product->name }}</h5>
+        <div class=" m-2 border-0 d-flex" style=" border-radius: 15px; padding:5px">
+        @foreach($userAdded->orders->last()->products as $product)
+       
+       
+            
+            <div class=" mx-3 text-center">
+                <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top mx-auto " alt="{{ $product->name }}" style="height: 60px" >
+                <h5 class="" style="font-size: 15px; font-weight:bold; margin-top:10px">{{ $product->name }}</h5>
+
             </div>
-        </div>
+       
         @endforeach
+    </div>
         <hr>
         @endif
     @endcan
