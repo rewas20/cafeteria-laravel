@@ -38,11 +38,19 @@
                     </h2>
                 </span>
             </td>
+           
+            <td> {{$order->status=="Out"?'Out for delivery':$order->status}}</td>
 
-            <td> {{$order->status}} </td>
-
+            <?php
+                $orderTotal =0;
+            ?>
+            @foreach($order->products as $product)
+            <?php
+                $orderTotal += $product->price *$product->pivot->count;
+            ?>
+            @endforeach
             <td>
-                {{ $order->products->sum('price')}} EGP
+                {{ $orderTotal}} EGP
             </td>
 
             <td>
@@ -66,7 +74,7 @@
                         <div class="accordion-body d-flex">
                             @foreach($order->products as $product)
                             <div class="card border-0 m-3 position-relative bg-transparent" style="height:300px; width:200px; border-radius: 15px; padding:10px 5px">
-                                <img src="{{ url('uploads/products/' . $product->image) }}" class="card-img-top mx-auto" alt="{{ $product->name }}" style="height: 60%;">
+                                <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top mx-auto" alt="{{ $product->name }}" style="height: 60%;">
                                 <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
                                     <h5 class="card-title" style="font-size: 20px; font-weight:bold;">{{ $product->name }}</h5>
                                     <p class="card-text position-absolute top-0 end-0 p-2 bg-white rounded-circle border" style="font-size: 20px; font-weight:bold;">{{ $product->price }} L.E</p>

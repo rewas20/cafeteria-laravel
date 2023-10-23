@@ -12,19 +12,31 @@ fieldset{
 }
 </style>
 
+@if(Session::has('success'))
+    <div class="alert alert-success">
+        {{Session::get('success')}}
+    </div>
+@endif
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <!-- Select Dropdown to Filter Users -->
-            <div class="mb-3">
+           <form id="form-chanage" action="{{route('home.choose')}}" method="post">
+            @csrf
+             <!-- Select Dropdown to Filter Users -->
+             <div class="mb-3">
                 <h2 value="">Add To User</h2>
-                <select id="userFilter" class="form-select form-select-sm">
+                <select onchange="(document.getElementById('form-chanage').submit())" name="user" type="submit" id="userFilter" class="form-select form-select-sm">
                     <option value="">All Users</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @foreach ($users as $user)=
+                        @if(session('user') && $user->id == session('user')->id )
+                       <option value="{{ $user->id }}" selected> {{ $user->name }}</option>
+                        @else
+                       <option value="{{ $user->id }}"> {{ $user->name }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
+           </form>
         </div>
       <div class="col-md-5">
     <!-- Search Input -->
@@ -41,8 +53,8 @@ fieldset{
     <div class="d-flex flex-row flex-wrap">
                 <div class="col-md-6">
                 
-                    <fieldset class="card-list form-group border rounded-2 col-md-9">
-                        <legend class="w-auto fs-5">menu check list</legend>
+                    <fieldset class="card-list border rounded-2 col-md-9">
+                        <legend class="w-auto fs-5 p-2 bg-white rounded border border-1 text-capitalize fw-bolder">menu check list</legend>
                         <table class="table">
                             <thead>
                             <tr>
@@ -66,7 +78,7 @@ fieldset{
                             <tr>                                
                                 <td>
                                       
-                                <img src="{{ url('uploads/products/' . $card_details['image']) }}"class="card-img-top mx-auto"  style="height: 80px; width: 80px;" alt="{{$card_details['name']}}">
+                                <img src="{{ asset('storage/' . $card_details['image']) }}"class="card-img-top mx-auto"  style="height: 80px; width: 80px;" alt="{{$card_details['name']}}">
                                 </td>
                                 <td class="text-center ">
                                     <h5 class="card-title" style="font-size: 16px; font-weight:bold;">{{$card_details['name']}}</h5> 
@@ -96,22 +108,23 @@ fieldset{
                             </td>
                             </tr>
                             @endforeach
-                            </tbody>
-                        </table>
-                        <div class="form-group mb-3">
+                        </tbody>
+                    </table>
+                    <form action="{{route('order-products.create')}}" methos="post">
+                        @csrf
+                        <div class="mb-3">
                             <label for="notes">Notes:</label>
-                            <textarea class="form-control" id="notes" rows="3"></textarea>
+                            <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="mb-3">
                             <label for="room">Room:</label>
-                            <input type="text" id="room" value="{{auth()->user()->room}}">
+                            <input type="text" id="room" name="room" value="{{session('user')->room??'no room'}}">
                         </div>
-                        <div class="text-end mb-2">
-                            <span class="float-right fs-4 fw-bolder">Total Price:{{$total}}</span>
-                        </div>
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary" style="width:10rem ;">Submit</button>
-                        </div>
+                        <input type="submit" class="btn btn-primary" style="width:10rem ;" value="Confirm">
+                    </form>
+                    <div class="text-end mb-2">
+                        <span class="float-right fs-4 fw-bolder">Total Price:{{$total}}</span>
+                    </div>
                     </fieldset>
                 </div>
 <div class="container col-md-6">
@@ -122,7 +135,7 @@ fieldset{
                     @method('put')
         <button type="submit" style="background-color:#f8fafc; border: none; text-decoration: none;">
         <div class="card m-3 border-0" style="width: 10rem; height:300px; border-radius: 15px; padding:10px 5px">
-            <img src="{{ url('uploads/products/' . $product->image) }}" class="card-img-top mx-auto" alt="{{ $product->name }}" style="height: 60%; ">
+            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top mx-auto" alt="{{ $product->name }}" style="height: 60%; ">
             <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
                 <h5 class="card-title" style="font-size: 20px; font-weight:bold;">{{ $product->name }}</h5>
                 <p class="card-text" style="font-size: 20px; font-weight:bold;">{{ $product->price }} L.E</p>
@@ -131,10 +144,12 @@ fieldset{
         </button>
         </form>
         @endforeach
+        <br>
+        <br>
+        {{$products->links('pagination::bootstrap-5')}}
     </div>
 </div>
 
-{{$products->links('pagination::bootstrap-5')}}
 
 
 

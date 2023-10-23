@@ -11,8 +11,9 @@
                 <th >Name</th>
                 <th >Profile Pic</th>
                 <th >Email</th>
+                <th >Room</th>
                 <th >Role</th>
-                <th class='ml-5'>Action</th>
+                <th >Action</th>
             </tr>
         </thead>
         <tbody>
@@ -20,7 +21,7 @@
             <tr>
                 <td>{{ $user->name }}</td>
                 <td>
-                    <img src="{{ asset('storage/' . $user->profile_pic) }}" alt="Profile Image" class="img-fluid" width="50">
+                    <img src="{{ asset('storage/' . $user->profile_pic) }}" alt="Profile Image" class="rounded-circle" width="50px" height="50px" >
                 </td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->room }}</td>
@@ -39,5 +40,5 @@
         </tbody>
     </table>
 </div>
-{{$users->links('pagination::bootstrap-5')}}
+
 @endsection

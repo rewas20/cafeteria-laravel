@@ -14,7 +14,7 @@ class StatusOrderController extends Controller
 
     public function index()
     {
-        $orders = Order::orderBy('created_at', 'DESC')->paginate(3);
+        $orders = Order::where('status','<>','Done')->orderBy('created_at', 'DESC')->paginate(3);
         return view('status-orders.index',['orders'=>$orders]);
     }
 
@@ -33,10 +33,7 @@ class StatusOrderController extends Controller
     public function update(Request $request, string $id)
     {
         $order = Order::find($id);
-        if($request->all()['status']==="Done"){
-            $this->destroy($id);
-        }
-        $order->update($request->all());
+        if($order) $order->update($request->all());
         return to_route('status-orders.index');
     }
 
@@ -46,7 +43,7 @@ class StatusOrderController extends Controller
     public function destroy(string $id)
     {
         $order = Order::find($id);
-        $order->delete();
+        if($order) $order->delete();
         return to_route('status-orders.index');
     }
 }

@@ -83,7 +83,7 @@ class UserController extends Controller
         // Update the user's information
       
         if ($request->hasFile('image')) {
-            if(Storage::exists('public/'.$user->profile_pic)){
+            if($user->profile_pic&&Storage::exists('public/'.$user->profile_pic)){
                 unlink('storage/'.$user->profile_pic);
             }
           
@@ -104,7 +104,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if(Storage::exists('public/'.$user->profile_pic)){
+        if($user->profile_pic&&Storage::exists('public/'.$user->profile_pic)){
             unlink('storage/'.$user->profile_pic);
         }
 

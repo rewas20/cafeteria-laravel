@@ -45,8 +45,8 @@
                         <p class="invalid-feedback">{{$message}}</p>
                     @enderror
                     <div class="pt-3">
-                            <img src="{{ url('uploads/products/'. $product->image) }}" alt="" width="100" height="100">
-                        </div>
+                        <img src="{{ asset('storage/'. $product->image) }}" alt="" width="100" height="100">
+                    </div>
             </div>
             <div class="mb-3">
                     <label class="form-label" for="status">status</label>

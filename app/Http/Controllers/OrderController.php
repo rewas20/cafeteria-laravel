@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,11 +36,10 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+/*     public function store(Request $request)
     {
-        //
-
-    }
+       
+    } */
 
     /**
      * Display the specified resource.
@@ -80,14 +81,13 @@ class OrderController extends Controller
     public function filter(Request $request)
     {
 
-        $date_from = $request->date_from ? $request->date_from : '2020-01-01 00:00:00';
-        $date_to = $request->date_to ? $request->date_to : now()->format('Y-m-d H:i:s');
+        $date_from = $request->date_from ? $request->date_from : '2020-01-1 00:00';
+        $date_to = $request->date_to ? $request->date_to : now()->addDays(1)->format('Y-m-d');
         // dd($date_from);
 
-        $orders = Order::where('user_id', '=', Auth::id())
-            ->where('created_at', '>=', $date_from)
-            ->where('created_at', '<=', $date_to)
-            ->orderByDesc('created_at')
+        $orders = Order::where('user_id', Auth::id())
+        ->whereBetween('created_at', [$date_from,$date_to])
+        ->orderByDesc('created_at')
             ->paginate(3);
 
         $total = $this->sumTotal($orders);
@@ -99,7 +99,9 @@ class OrderController extends Controller
 
         $total = 0;
         foreach ($orders as $order) {
-            $total += $order->products->sum('price');
+            foreach($order->products as $product){
+                $total += $product->pivot->count * $product->price;
+            }
         }
 
         return $total;
