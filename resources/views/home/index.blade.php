@@ -128,7 +128,7 @@ fieldset{
                             <form id="product-edit-action-{{$card_id }}" action="{{ route('carts.destroy',$card_id) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" onclick="return confirm('Are you sure you want to delete this user?')"  class="btn btn-danger"><i class="bi bi-x fs-5"></i></button>
+                                <button type="submit" onclick="return confirm('Are you sure you want to delete this Product?')"  class="btn btn-danger"><i class="bi bi-x fs-5"></i></button>
                             </form>
                             </td>
                             </tr>
