@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\StoreNewUser;
 use App\Http\Requests\UpdateUser;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -13,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(5);
+
+        $users = User::all()->except(Auth::user()->id);
         return view('users.index', ['users' => $users]);
     }
 
@@ -72,6 +75,7 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request, User $user)
     {
+        
     
         $data = $request->all();
        
@@ -79,7 +83,11 @@ class UserController extends Controller
         // Update the user's information
       
         if ($request->hasFile('image')) {
-            // Handle image upload if a new image is provided
+            if(Storage::exists('public/'.$user->profile_pic)){
+                unlink('storage/'.$user->profile_pic);
+            }
+          
+
             $imagePath = $request->file('image')->store('images', 'public');
             $user->profile_pic = $imagePath;
         }
@@ -96,11 +104,21 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if(Storage::exists('public/'.$user->profile_pic)){
+            unlink('storage/'.$user->profile_pic);
+        }
+
         $user->delete();
 
         return to_route('users.index');
 
 
+    }
+
+
+    public function myProfile(){
+        $user = Auth::user();
+        return view('users.myprofile',['user'=>$user]);
     }
 
 

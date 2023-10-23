@@ -34,9 +34,22 @@
                         <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
                             <a class="nav-link" href="{{ route('home') }}">Home</a>
                         </li>
+
+
+                        <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
+                            <a class="nav-link" href="#">My Orders</a>
+                        </li>
+
                         <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
                             <a class="nav-link" href="{{ route('products.index') }}">Products</a>
                         </li>
+
+                        <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
+                            <a class="nav-link" href="{{ route('categories.index') }}">Categories</a>
+                        </li>
+                         
+
+
                         <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
                             <a class="nav-link" href="{{ route('users.index') }}">Users</a>
                         </li>
@@ -84,6 +97,13 @@
                                 
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+
+
+                                    <a class="dropdown-item mb-2" href="{{ route('user.myprofile') }}">My Profile</a>
+                                    @if(!Auth::user()->email_verified_at)
+                                        <a href="{{route('verification.notice')}}" class="text-decoration-none text-danger ps-3">Verify your email</a>
+                                    @endif
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -23,6 +23,7 @@
                     <img src="{{ asset('storage/' . $user->profile_pic) }}" alt="Profile Image" class="img-fluid" width="50">
                 </td>
                 <td>{{ $user->email }}</td>
+                <td>{{ $user->room }}</td>
                 <td>{{ $user->role }}</td>
                 <td>
                     <a href="{{ route('users.show', $user->id) }}" class="btn btn-info">View</a>
