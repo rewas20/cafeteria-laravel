@@ -28,7 +28,7 @@ class HomeController extends Controller
      
      public function index()
      {
-         $products = Product::orderBy('id', 'DESC')->paginate(3);
+         $products = Product::orderBy('id', 'DESC')->paginate(10);
          $users = User::where('role', 'user')->get();
  
          return view('home.index', ['products' => $products, 'users' => $users]);

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
@@ -17,13 +18,15 @@ class Product extends Model
         'status',
         'category_id',
     ];
-    public function category()
-    {
+    
+    public function category() {
+
         return $this->belongsTo(Category::class)->withTrashed();
     }
 
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class);
+        return $this->belongsToMany(Order::class,  'order_products', 'order_id', 'product_id');
     }
+
 }

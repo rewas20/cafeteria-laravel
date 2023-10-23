@@ -77,6 +77,7 @@
             </div>
         </div>
     </div>
+    {{$products->links('pagination::bootstrap-5')}}
     @endsection
     <script>
     function deleteProduct(id) {

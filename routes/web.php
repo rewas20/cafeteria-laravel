@@ -6,6 +6,7 @@ use  App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StatusOrderController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -44,6 +45,8 @@ Route::get('home/search', [App\Http\Controllers\HomeController::class, 'search']
 Route::post('carts/plus/{increment}',[CartController::class,'increment'])->name('carts.increment');
 Route::post('carts/minus/{decrement}',[CartController::class,'decrement'])->name('carts.decrement');
 
+
+Route::resource('status-orders', StatusOrderController::class);
 
 Auth::routes([
     'verify' => true,

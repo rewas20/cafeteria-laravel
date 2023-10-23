@@ -134,7 +134,7 @@ fieldset{
     </div>
 </div>
 
-
+{{$products->links('pagination::bootstrap-5')}}
 
 
 
