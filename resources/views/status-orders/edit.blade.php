@@ -6,9 +6,9 @@
 <form action="{{route('status-orders.update',$order->id)}}" method="post">
     @csrf
     @method('put')
-    <div class="my-3">
-        <label for="status">Status</label>
-        <select name="status" id="status">
+    <label for="status">Status</label>
+    <div class="input-group mb-3">
+        <select class="form-select" id="status" name="status" aria-label="Example select with button addon">
             @if($order->status == "Processing")
             <option value="{{$order->status}}" selected>{{$order->status}}</option>
             <option value="Out">Out for delivery</option>

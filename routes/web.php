@@ -5,8 +5,11 @@ use Illuminate\Support\Facades\Route;
 use  App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StatusOrderController;
+use App\Http\Controllers\CheckController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -38,7 +41,7 @@ Route::resource('products', ProductController::class);
 Route::put('products/{product}/availability', [ProductController::class,'availability'])->name('products.availability');
 Route::resource('carts', CartController::class);
 
-Route::get('home/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
+Route::get('home/search', [HomeController::class, 'search'])->name('search');
 
 
 
@@ -47,6 +50,11 @@ Route::post('carts/minus/{decrement}',[CartController::class,'decrement'])->name
 
 
 Route::resource('status-orders', StatusOrderController::class);
+Route::resource('checks', CheckController::class);
+Route::resource('order-products', OrderProductController::class);
+Route::post('checks', [CheckController::class, 'filter'])->name('checks.filter');
+
+Route::post('home', [HomeController::class, 'choose'])->name('home.choose');
 
 Auth::routes([
     'verify' => true,

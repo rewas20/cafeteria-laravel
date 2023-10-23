@@ -34,11 +34,7 @@
                         <tr valign="top">
                         <td class="">{{ $product->id }}</td>
                         <td class="">  
-                        @if($product->image != '' && file_exists(public_path() .'/uploads/products/'. $product->image))
-                            <img src="{{ url('uploads/products/'. $product->image) }}" alt="" width="40" height="40" class="rounded-circle">
-                            @else
-                            <img src="{{ url('assets/images/no-image.png') }}" alt="" width="40" height="40" class="rounded-circle">
-                            @endif
+                            <img src="{{ asset('storage/'. $product->image) }}" alt="" width="40" height="40" class="rounded-circle">
                             </td>
                         <td class="">{{$product->name }}</td>
                         <td class="">{{ $product->price }}</td>

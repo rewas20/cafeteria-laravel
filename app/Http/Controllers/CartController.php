@@ -62,7 +62,6 @@ class CartController extends Controller
                     'quantity'=> 1,
                     'price'=> $product->price,
                     'image' => $product->image,
-                    'notes' => ""
                 ];
             }
             session()->put('cart',$cart);

@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Validator as ValidationValidator;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -55,10 +56,8 @@ class ProductController extends Controller
             $product->status = $data['status'];
             $product->category_id = $data['category'];
             //image move ......
-            $ext = $data['image']->getClientOriginalExtension();
-            $newFileName = time() . '.' . $ext;
-            $data['image']->move(public_path() . '/uploads/products', $newFileName);
-            $product->image = $newFileName;
+            $imagePath = $request->file('image')->store('products', 'public');
+            $product->image = $imagePath;
             $product->save();
             //end of move
 
@@ -95,32 +94,34 @@ class ProductController extends Controller
             [
                 'name' => 'required',
                 'price' => 'required|numeric',
-                'image' => 'required|image:gif,jpg,bmp,png',
+                'image' => 'image:gif,jpg,bmp,png',
             ]
         );
         if ($validator->fails()) {
-            return redirect()->route('products.edit')->withErrors($validator)->withInput();
+            return to_route('products.edit',$product)->withErrors($validator);
         } else {
             $product->fill($request->post())->save();
             if ($request->hasFile('image')) {
-                $oldImage = $product->image;
-                $ext = $request->image->getClientOriginalExtension();
-                $newFileName = time() . '.' . $ext;
-                $request->image->move(public_path() . '/uploads/products/', $newFileName);
-                $product->image = $newFileName;
+                if($product->image&&Storage::exists('public/'.$product->image)){
+                    unlink('storage/'.$product->image);
+                }
+              
+                $imagePath = $request->file('image')->store('products', 'public');
+                $product->image = $imagePath;
+               
                 $product->save();
-                File::delete(public_path() . '/uploads/products/' . $oldImage);
             }
         }
-        return redirect()->route('products.index')->with('success', 'product updated successfully.');
+        return to_route('products.index')->with('success', 'product updated successfully.');
     }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product)
     {
-
-        File::delete(public_path() . '/uploads/products/' . $product->image);
+        if($product->image&&Storage::exists('public/'.$product->image)){
+            unlink('storage/'.$product->image);
+        }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'product deleted successfully.');
     }

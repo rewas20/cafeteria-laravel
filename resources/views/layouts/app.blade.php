@@ -37,7 +37,7 @@
 
 
                         <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
-                            <a class="nav-link" href="#">My Orders</a>
+                            <a class="nav-link" href="{{route('orders.index')}}">My Orders</a>
                         </li>
 
                         <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
@@ -57,7 +57,7 @@
                             <a class="nav-link" href="{{ route('status-orders.index') }}">Manual Orders</a>
                         </li>
                         <li class="nav-item" style="display: inline-block; padding: 0 0.5rem; text-align: center; cursor: pointer;">
-                            <a class="nav-link" href="#">Checks</a>
+                            <a class="nav-link" href="{{route('checks.index')}}">Checks</a>
                         </li>
                     </ul>
 
