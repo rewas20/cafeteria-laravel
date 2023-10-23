@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use  App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,8 +27,13 @@ Route::get('/', function () {
 Route::resource('users', UserController::class);
 Route::get('myprofile', [UserController::class,'myProfile' ])->name('user.myprofile');
 
+// orders routes
+Route::resource('orders', OrderController::class)->only(['index', 'store', 'destroy']);
+Route::post('orders', [OrderController::class, 'filter'])->name('orders.filter');
+
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
+
 Route::put('products/{product}/availability', [ProductController::class,'availability'])->name('products.availability');
 Route::resource('carts', CartController::class);
 
@@ -37,6 +43,7 @@ Route::get('home/search', [App\Http\Controllers\HomeController::class, 'search']
 
 Route::post('carts/plus/{increment}',[CartController::class,'increment'])->name('carts.increment');
 Route::post('carts/minus/{decrement}',[CartController::class,'decrement'])->name('carts.decrement');
+
 
 Auth::routes([
     'verify' => true,
