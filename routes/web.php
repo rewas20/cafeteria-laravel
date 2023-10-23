@@ -11,6 +11,10 @@ use App\Http\Controllers\StatusOrderController;
 use App\Http\Controllers\CheckController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\GoogleAuthController;
+use Laravel\Socialite\Facades\Socialite;
+ 
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +31,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('auth/google',[GoogleAuthController::class,'redirect'] )->name('google-auth');
+Route::get('auth/google/call-back',[GoogleAuthController::class,'callbackgoogle']);
 
 Route::resource('users', UserController::class);
 Route::get('myprofile', [UserController::class,'myProfile' ])->name('user.myprofile');
@@ -61,3 +67,6 @@ Auth::routes([
 ]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
