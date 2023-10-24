@@ -181,8 +181,8 @@ fieldset{
         @endforeach
         <br>
         <br>
-        {{$products->links('pagination::bootstrap-5')}}
     </div>
+    {{$products->links('pagination::bootstrap-5')}}
 </div>
 
 
