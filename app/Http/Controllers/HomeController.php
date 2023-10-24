@@ -52,17 +52,18 @@ class HomeController extends Controller
 
      public function search(Request $request){
         $search = $request->input('search');
-        $products = Product::where('status','available')->where('name','LIKE', '%'.$search.'%')->paginate(5);
+        $products = Product::where('name','LIKE', '%'.$search.'%')->paginate(5);
         $users = User::where('role', 'user')->get();
-        $isUser = Gate::inspect('user',Auth::user());
 
+        $userAdded = "";
+        $isUser = Gate::inspect('user',Auth::user());
         if($isUser->allowed()){
             $userAdded = Auth::user(); 
             session()->pull('user');
             session()->put('user',$userAdded);
         }
 
-        return view('home.index',['products' => $products, 'users' => $users]);
+        return view('home.index',['products' => $products, 'users' => $users,'userAdded'=>$userAdded]);
 
    
 
