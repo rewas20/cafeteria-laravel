@@ -33,9 +33,9 @@ class OrderProductController extends Controller
                 OrderProduct::create($orderProduct);
             }
 
-            return to_route('home')->with('success', 'product deleted successfully.');
+            return to_route('home')->with('success', 'Order set successfully.');
         }
-        return to_route('home')->with('error', 'product deleted successfully.');
+        return to_route('home')->with('sucess', 'Order Not set, no user added or product.');
 
     }
 }

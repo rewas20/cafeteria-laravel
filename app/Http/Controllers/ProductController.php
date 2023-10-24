@@ -123,7 +123,7 @@ class ProductController extends Controller
             unlink('storage/'.$product->image);
         }
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'product deleted successfully.');
+        return redirect()->route('products.index')->with('success', 'product delete successfully.');
     }
     //function update availability for status product
     public function availability(Product $product)
