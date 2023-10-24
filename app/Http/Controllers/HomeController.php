@@ -52,7 +52,7 @@ class HomeController extends Controller
 
      public function search(Request $request){
         $search = $request->input('search');
-        $products = Product::where('name','LIKE', '%'.$search.'%')->paginate(5);
+        $products = Product::where('status','available')->where('name','LIKE', '%'.$search.'%')->paginate(5);
         $users = User::where('role', 'user')->get();
 
         $userAdded = "";
